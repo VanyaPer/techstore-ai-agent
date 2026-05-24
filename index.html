@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Buy Electronics</title>
+
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https:;
+                   script-src 'self' 'unsafe-inline' 'unsafe-eval' https: cdn.tailwindcss.com;">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <style>
+        .product-card {
+            transition: all 0.3s;
+        }
+
+            .product-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 25px 30px -5px rgb(0 0 0 / 0.15);
+            }
+
+        .chat-message {
+            max-width: 85%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <header class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bolt text-4xl text-blue-600"></i>
+                <h1 class="text-3xl font-bold">TechStore</h1>
+            </div>
+            <nav class="flex gap-8 text-lg font-medium">
+                <a href="#" onclick="scrollToSection('home')" class="hover:text-blue-600">Home</a>
+                <a href="#" onclick="scrollToSection('phones')" class="hover:text-blue-600">Smartphones</a>
+            </nav>
+            <button onclick="toggleCart()" class="relative text-2xl">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">0</span>
+            </button>
+        </div>
+    </header>
+
+    <section id="home" class="bg-gradient-to-r from-blue-700 to-indigo-700 text-white py-28 text-center">
+        <h2 class="text-6xl font-bold mb-6">Modern Electronics</h2>
+        <p class="text-2xl mb-8">Reliable Goods • Fast Delivery in Ukraine</p>
+        <button onclick="scrollToSection('phones')" class="bg-white text-blue-700 px-10 py-4 rounded-2xl text-xl font-semibold hover:bg-gray-100">
+            Browse Smartphones
+        </button>
+    </section>
+
+    <section id="phones" class="max-w-7xl mx-auto px-6 py-16">
+        <h2 class="text-4xl font-bold mb-10 text-center">Smartphones</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="phones-grid"></div>
+    </section>
+
+    <button onclick="toggleChat()" class="fixed bottom-8 right-8 bg-blue-600 hover:bg-blue-700 text-white w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-3xl z-50">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <div id="chat-window" class="hidden fixed bottom-28 right-8 w-[450px] bg-white rounded-3xl shadow-2xl overflow-hidden z-50 border">
+        <div class="bg-blue-600 text-white p-5 flex items-center gap-3">
+            <i class="fa-solid fa-robot text-2xl"></i>
+            <div class="flex-1">
+                <p class="font-semibold">AI Assistant</p>
+                <p class="text-sm opacity-80">Ask prices or comparisons</p>
+            </div>
+            <button onclick="toggleChat()" class="text-3xl leading-none">×</button>
+        </div>
+
+        <div id="chat-messages" class="h-80 overflow-y-auto p-5 bg-gray-50 space-y-4"></div>
+
+        <div class="px-4 py-2 bg-gray-50 border-t flex flex-wrap gap-2">
+            <button onclick="sendQuickReply('Show all prices')"
+                    class="bg-white hover:bg-blue-50 text-blue-600 text-xs font-medium px-3 py-1.5 rounded-xl border border-blue-200 transition">
+                📋 All Prices
+            </button>
+            <button onclick="sendQuickReply('Compare iPhone 16 and iPhone 16 Pro')"
+                    class="bg-white hover:bg-blue-50 text-blue-600 text-xs font-medium px-3 py-1.5 rounded-xl border border-blue-200 transition">
+                ⚖️ iPhone 16 vs Pro
+            </button>
+            <button onclick="sendQuickReply('Top seller')"
+                    class="bg-white hover:bg-orange-50 text-orange-600 text-xs font-medium px-3 py-1.5 rounded-xl border border-orange-200 transition">
+                🔥 Top Seller
+            </button>
+            <button onclick="sendQuickReply('Best battery')"
+                    class="bg-white hover:bg-green-50 text-green-600 text-xs font-medium px-3 py-1.5 rounded-xl border border-green-200 transition">
+                🔋 Best Battery
+            </button>
+            <button onclick="sendQuickReply('Budget option')"
+                    class="bg-white hover:bg-purple-50 text-purple-600 text-xs font-medium px-3 py-1.5 rounded-xl border border-purple-200 transition">
+                💰 Cheapest
+            </button>
+        </div>
+
+        <div class="p-4 border-t">
+            <div class="flex gap-2">
+                <input id="user-input" type="text" placeholder="Ask something or tap a button..."
+                       class="flex-1 border border-gray-300 rounded-2xl px-5 py-3 focus:outline-none">
+                <button onclick="sendMessage()" class="bg-blue-600 text-white px-6 rounded-2xl">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global data array in English
+        const phones = [
+            {
+                id: 1,
+                name: "iPhone 16 Pro",
+                price: 45999,
+                img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.3\" OLED, 120Hz", cpu: "Apple A18 Pro", camera: "48+48+12 MP (5x zoom)", battery: "3582 mAh" }
+            },
+            {
+                id: 2,
+                name: "iPhone 16 Plus",
+                price: 42499,
+                img: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.7\" OLED, 60Hz", cpu: "Apple A18", camera: "48+12 MP", battery: "4674 mAh" }
+            },
+            {
+                id: 3,
+                name: "iPhone 16",
+                price: 37999,
+                img: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.1\" OLED, 60Hz", cpu: "Apple A18", camera: "48+12 MP", battery: "3561 mAh" }
+            },
+            {
+                id: 4,
+                name: "Samsung Galaxy S25 Ultra",
+                price: 52999,
+                img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.8\" Dynamic AMOLED 2X, 120Hz", cpu: "Snapdragon 8 Elite", camera: "200+50+12+10 MP", battery: "5000 mAh" }
+            },
+            {
+                id: 5,
+                name: "Samsung Galaxy S25+",
+                price: 44999,
+                img: "https://images.unsplash.com/photo-1610792516307-ea5acd9c3b00?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.7\" Dynamic AMOLED 2X, 120Hz", cpu: "Exynos 2500 / Snapdragon", camera: "50+10+12 MP", battery: "4900 mAh" }
+            },
+            {
+                id: 6,
+                name: "Samsung Galaxy S25",
+                price: 38999,
+                img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.2\" Dynamic AMOLED 2X, 120Hz", cpu: "Exynos 2500 / Snapdragon", camera: "50+10+12 MP", battery: "4000 mAh" }
+            },
+            {
+                id: 7,
+                name: "Google Pixel 9 Pro",
+                price: 35999,
+                img: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.3\" LTPO OLED, 120Hz", cpu: "Google Tensor G4", camera: "50+48+48 MP", battery: "4700 mAh" }
+            },
+            {
+                id: 8,
+                name: "Google Pixel 9",
+                price: 29999,
+                img: "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=800&auto=format&fit=crop&q=80",
+                specs: { screen: "6.3\" OLED, 120Hz", cpu: "Google Tensor G4", camera: "50+48 MP", battery: "4700 mAh" }
+            }
+        ];
+
+        let cart = [];
+
+        function renderPhones() {
+            const grid = document.getElementById('phones-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            phones.forEach(phone => {
+                const card = document.createElement('div');
+                card.className = 'product-card bg-white rounded-3xl overflow-hidden shadow';
+                card.innerHTML = `
+                    <img src="${phone.img}" alt="${phone.name}" class="w-full h-56 object-cover">
+                    <div class="p-6">
+                        <h3 class="font-semibold text-xl">${phone.name}</h3>
+                        <p class="text-3xl font-bold mt-3">${phone.price.toLocaleString('uk-UA')} UAH</p>
+                        <button onclick="addToCart(${phone.id})"
+                                class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-medium">
+                            Add to Cart
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function addToCart(id) {
+            const phone = phones.find(p => p.id === id);
+            if (phone) alert(`${phone.name} added to cart ✓`);
+        }
+
+        function scrollToSection(section) {
+            document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleCart() {
+            alert("Shopping Cart (Demo)");
+        }
+
+        window.onload = function() {
+            renderPhones();
+            if (typeof window.initAI === 'function') {
+                window.initAI(phones);
+            }
+        };
+    </script>
+
+    <script src="ai-agent.js"></script>
+</body>
+</html>
