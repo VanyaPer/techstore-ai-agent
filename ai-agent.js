@@ -1,5 +1,3 @@
-// ai-agent.js - English version of the AI Assistant (Updated welcome message)
-
 let agentPhones = []; 
 
 function toggleChat() {
@@ -275,7 +273,7 @@ window.initAI = function(mainPhonesData) {
     const messages = document.getElementById('chat-messages');
     if (messages && messages.children.length === 0) {
         setTimeout(() => {
-            // ТЕКСТ ПРИВІТАННЯ ЗМІНЕНО СЮДI
+            
             addMessage("Hello! 👋 I'm your interactive TechStore AI Consultant.<br><br><strong>What are you interested in?</strong>");
         }, 400);
     }
