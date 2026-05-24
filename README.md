@@ -31,6 +31,16 @@ https://vanyaper.github.io/techstore-ai-agent/
 <img width="1900" height="865" alt="image" src="https://github.com/user-attachments/assets/6342dd3a-ec47-4b74-a29c-011415313d64" />
 
 
+
+## ⚙️ How It Works
+
+The AI assistant runs **100% on the client side** inside `ai-agent.js` with zero backend overhead. Here is the underlying logic:
+
+1. **Data Binding:** Upon page load, the main phone database array from `index.html` is securely passed directly into the AI module via `window.initAI(phones)`.
+2. **Score-Based Token Matching:** When you send a message, the system evaluates the text using a custom scoring system. It scans for specific brand, model, and modifier keywords (like *Pro, Plus, Ultra*).
+3. **Strict Filtering & Penalties:** To prevent mismatches, strict penalty rules are applied. For example, if you look up a base model but write "Plus", the base model's score drops, ensuring the `iPhone 16 Plus` card wins instead of a generic `iPhone 16`.
+4. **Dynamic Comparison Grids:** If the query contains two valid device matches and an explicit comparison intent (e.g., *vs, compare*), the script extracts both objects and injects an adaptive HTML comparison `<table>` directly into the chat flow using Tailwind CSS layouts.
+
 <img width="1898" height="860" alt="image" src="https://github.com/user-attachments/assets/ea1e8ab8-896c-4678-ae2d-d849134a2e5f" />
 
 
