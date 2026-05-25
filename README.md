@@ -44,10 +44,9 @@ The AI assistant runs **100% on the client side** inside `ai-agent.js` with zero
 4. **Dynamic Comparison Grids:** If the query contains two valid device matches and an explicit comparison intent (e.g., *vs, compare*), the script extracts both objects and injects an adaptive HTML comparison `<table>` directly into the chat flow using Tailwind CSS layouts.
 
 
-
-
-
-
+--------
+ UPDATE
+--------
 
 <img width="1916" height="905" alt="image" src="https://github.com/user-attachments/assets/d8414728-8906-4b4f-be36-66d17ca95300" />
 
