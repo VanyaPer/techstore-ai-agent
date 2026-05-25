@@ -43,3 +43,44 @@ The AI assistant runs **100% on the client side** inside `ai-agent.js` with zero
 3. **Strict Filtering & Penalties:** To prevent mismatches, strict penalty rules are applied. For example, if you look up a base model but write "Plus", the base model's score drops, ensuring the `iPhone 16 Plus` card wins instead of a generic `iPhone 16`.
 4. **Dynamic Comparison Grids:** If the query contains two valid device matches and an explicit comparison intent (e.g., *vs, compare*), the script extracts both objects and injects an adaptive HTML comparison `<table>` directly into the chat flow using Tailwind CSS layouts.
 
+
+
+
+
+
+
+<img width="1916" height="905" alt="image" src="https://github.com/user-attachments/assets/d8414728-8906-4b4f-be36-66d17ca95300" />
+
+
+<img width="1900" height="903" alt="image" src="https://github.com/user-attachments/assets/8aa5a4da-a31c-42d7-969f-224b8cbd1118" />
+
+
+<img width="1898" height="905" alt="image" src="https://github.com/user-attachments/assets/f4339383-3f3c-4129-95df-1b726d267b73" />
+
+
+<img width="1902" height="903" alt="image" src="https://github.com/user-attachments/assets/10346132-b100-4ded-a6f4-1efe5b2da942" />
+
+
+<img width="1901" height="906" alt="image" src="https://github.com/user-attachments/assets/52d60c1b-44c2-4e03-8661-4ab2c8f67ef5" />
+
+
+<img width="1902" height="904" alt="image" src="https://github.com/user-attachments/assets/5e8ee9db-2dc6-4762-a2c1-3f5fe74faca0" />
+
+
+<img width="1901" height="904" alt="image" src="https://github.com/user-attachments/assets/36fd55d3-b0fe-4084-9dd7-add6b5b264fd" />
+
+
+
+🚀 Project Updates & AI Features
+
+🌟 Core Changes:
+* **Smartphone Focus:** Shifted the store layout to focus exclusively on smartphones.
+* **USD Pricing ($):** Converted the entire database and layout to US Dollars.
+* **UI Step Modification:** Set the budget input arrows to change by $100 increments.
+* **Production Fix:** Moved event listeners inside `initAI` to fix the GitHub Pages hosting bug.
+
+🤖 New AI Agent Features:
+1. **Budget Search (`checkBudget`):** Users enter a max price, and the AI filters (`.filter()`) and sorts (`.sort()`) affordable models from highest to lowest price.
+2. **Contextual Triggers ("+" / "-"):** * Entering **`+`** (or *yes*) makes the AI scan the chat history, identify the last mentioned phone, and print its specs.
+   * Entering **`-`** (or *no*) triggers a polite: *"Alright! What else can I help you with? 😊"*.
+3. **Symbol Protection:** Isolated random symbol inputs (`?`, `!`, `+`) from crashing the state when no active context is present.
