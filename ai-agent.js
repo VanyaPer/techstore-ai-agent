@@ -197,14 +197,12 @@ function sendMessage() {
         let lowerText = text.toLowerCase();
         let response = "";
 
-        
         const isShortNegative = ["no", "nope", "nah", "no thanks", "dont want", "-"].includes(lowerText);
         if (isShortNegative) {
             addMessage("Alright! What else can I help you with? 😊");
             return;
         }
 
-        
         const isShortConsent = ["yes", "sure", "ok", "show", "yep", "of course", "+"].includes(lowerText);
         if (isShortConsent) {
             const contextPhone = getLastMentionedPhoneFromDOM();
@@ -213,7 +211,6 @@ function sendMessage() {
             }
         }
 
-      
         if (/^[+?!.\-\s]+$/.test(lowerText)) {
             addMessage("I didn't quite catch that. Could you please specify a smartphone name or budget? 📱");
             return;
@@ -342,11 +339,13 @@ window.sendMessage = sendMessage;
 window.sendQuickReply = sendQuickReply;
 window.checkBudget = checkBudget;
 
+
 window.initAI = function (mainPhonesData) {
     if (mainPhonesData && Array.isArray(mainPhonesData)) {
         agentPhones = mainPhonesData;
     }
 
+    
     const input = document.getElementById('user-input');
     if (input) {
         input.addEventListener('keypress', (e) => {
@@ -354,8 +353,11 @@ window.initAI = function (mainPhonesData) {
         });
     }
 
+   
     const budgetInput = document.getElementById('budget-input');
     if (budgetInput) {
+        
+        budgetInput.onkeypress = null;
         budgetInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') checkBudget();
         });
